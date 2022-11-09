@@ -769,6 +769,10 @@ describe('github-tag-action', () => {
         .spyOn(utils, 'getCommits')
         .mockImplementation(async (sha) => commits);
 
+      jest
+        .spyOn(utils,'getEventName')
+        .mockImplementation('push');
+
       const validTags = [
         {
           name: 'v1.2.3',
@@ -805,7 +809,9 @@ describe('github-tag-action', () => {
       jest
         .spyOn(utils, 'getCommits')
         .mockImplementation(async (sha) => commits);
-
+      jest
+        .spyOn(utils,'getEventName')
+        .mockImplementation('push');
       const validTags = [
         {
           name: 'v1.2.3',
@@ -846,7 +852,10 @@ describe('github-tag-action', () => {
       jest
         .spyOn(utils, 'getCommits')
         .mockImplementation(async (sha) => commits);
-
+      jest
+        .spyOn(utils,'getEventName')
+        .mockImplementation('push');
+        
       const validTags = [
         {
           name: 'v1.2.3',
