@@ -914,11 +914,6 @@ describe('github-tag-action', () => {
       /*
        * Then
        */
-      expect(mockCreateTag).toHaveBeenCalledWith(
-        'v1.2.3-branch-with-my-first-feature.0',
-        expect.any(Boolean),
-        expect.any(String)
-      );
       expect(mockCreateTag).not.toHaveBeenCalledWith();
       expect(mockSetFailed).not.toBeCalled();
     });
