@@ -18,7 +18,7 @@ export function setCommitSha(sha: string) {
   process.env['GITHUB_SHA'] = sha;
 }
 
-export function getEventName(eventName: string) {
+export function setEventName(eventName: string) {
   process.env['GITHUB_EVENT_NAME'] = eventName;
 }
 

@@ -8,6 +8,7 @@ import {
   setCommitSha,
   setInput,
   setRepository,
+  setEventName
 } from './helper.test';
 
 jest.spyOn(core, 'debug').mockImplementation(() => {});
@@ -33,6 +34,7 @@ describe('github-tag-action', () => {
     jest.clearAllMocks();
     setBranch('master');
     setCommitSha('79e0ea271c26aa152beef77c3275ff7b8f8d8274');
+    setEventName('push');
     loadDefaultInputs();
   });
 
@@ -769,10 +771,6 @@ describe('github-tag-action', () => {
         .spyOn(utils, 'getCommits')
         .mockImplementation(async (sha) => commits);
 
-      jest
-        .spyOn(utils,'getEventName')
-        .mockImplementation((eventName) => 'push');
-
       const validTags = [
         {
           name: 'v1.2.3',
@@ -809,9 +807,7 @@ describe('github-tag-action', () => {
       jest
         .spyOn(utils, 'getCommits')
         .mockImplementation(async (sha) => commits);
-      jest
-        .spyOn(utils,'getEventName')
-        .mockImplementation((eventName) => 'push');
+
       const validTags = [
         {
           name: 'v1.2.3',
@@ -852,9 +848,6 @@ describe('github-tag-action', () => {
       jest
         .spyOn(utils, 'getCommits')
         .mockImplementation(async (sha) => commits);
-      jest
-        .spyOn(utils,'getEventName')
-        .mockImplementation((eventName) => 'push');
 
       const validTags = [
         {
