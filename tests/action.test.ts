@@ -915,7 +915,7 @@ describe('github-tag-action', () => {
        * Then
        */
       expect(mockCreateTag).toHaveBeenCalledWith(
-        'v1.2.4-012345',
+        'v1.2.3-012345',
         expect.any(Boolean),
         expect.any(String)
       );
