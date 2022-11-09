@@ -31,12 +31,12 @@ describe('utils', () => {
     /*
      * Given
      */
-    const remoteRef = 'refs/pull/123/merge';
+    const eventName = 'pull_request';
 
     /*
      * When
      */
-    const isPullRequest = utils.isPr(remoteRef);
+    const isPullRequest = utils.isPr(eventName);
 
     /*
      * Then
