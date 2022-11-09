@@ -45,7 +45,7 @@ export default async function main() {
     return;
   }
 
-  if(!GITHUB_EVENT_NAME) {
+  if (!GITHUB_EVENT_NAME) {
     core.setFailed('Missing GITHUB_EVENT_NAME');
     return;
   }
@@ -64,9 +64,8 @@ export default async function main() {
     .split(',')
     .some((branch) => currentBranch.match(branch));
   const isPullRequest = isPr(GITHUB_EVENT_NAME);
-  const isPrerelease = !isReleaseBranch && (
-    isPullRequest || isPreReleaseBranch
-  );
+  const isPrerelease =
+    !isReleaseBranch && (isPullRequest || isPreReleaseBranch);
 
   // Sanitize identifier according to
   // https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions

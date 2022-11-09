@@ -8,7 +8,7 @@ import {
   setCommitSha,
   setInput,
   setRepository,
-  setEventName
+  setEventName,
 } from './helper.test';
 
 jest.spyOn(core, 'debug').mockImplementation(() => {});
