@@ -53,11 +53,14 @@ export function isPr(eventName: string) {
   return eventName.includes('pull_request');
 }
 
-export function isPrereleaseBranch(preReleaseBranches: string, currentBranch: string) {
-  if(preReleaseBranches) {
+export function isPrereleaseBranch(
+  preReleaseBranches: string,
+  currentBranch: string
+) {
+  if (preReleaseBranches) {
     return preReleaseBranches
-    .split(',')
-    .some((branch) => currentBranch.match(branch));
+      .split(',')
+      .some((branch) => currentBranch.match(branch));
   }
   return false;
 }

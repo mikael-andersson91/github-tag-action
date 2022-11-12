@@ -61,7 +61,10 @@ export default async function main() {
   const isReleaseBranch = releaseBranches
     .split(',')
     .some((branch) => currentBranch.match(branch));
-  const isPreReleaseBranch = isPrereleaseBranch(preReleaseBranches,currentBranch); 
+  const isPreReleaseBranch = isPrereleaseBranch(
+    preReleaseBranches,
+    currentBranch
+  );
   const isPullRequest = isPr(GITHUB_EVENT_NAME);
   const isPrerelease =
     !isReleaseBranch && (isPullRequest || isPreReleaseBranch);
