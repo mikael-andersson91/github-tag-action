@@ -157,20 +157,17 @@ export function getIdentifier(
   currentBranch: string,
   isPullRequest: boolean,
   isPrerelease: boolean,
-  commitSha: string
+  commitRef: string
 ): string {
   // On prerelease: Sanitize identifier according to
   // https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions
   let identifier: string;
-  if (isPrerelease) {
-    identifier = (
-      appendToPreReleaseTag ? appendToPreReleaseTag : currentBranch
-    ).replace(/[^a-zA-Z0-9-]/g, '-');
-    return identifier;
-  }
   if (isPullRequest) {
     // On pull request, use commit SHA for identifier
-    return commitSha;
+    return commitRef.slice(0, 7).replace(/[^a-zA-Z0-9-]/g, '-');
   }
-  return '';
+  identifier = (
+    appendToPreReleaseTag ? appendToPreReleaseTag : currentBranch
+  ).replace(/[^a-zA-Z0-9-]/g, '-');
+  return identifier;
 }

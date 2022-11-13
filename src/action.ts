@@ -76,7 +76,7 @@ export default async function main() {
     currentBranch,
     isPullRequest,
     isPrerelease,
-    commitSha
+    commitRef
   );
 
   const prefixRegex = new RegExp(`^${tagPrefix}`);
@@ -193,7 +193,11 @@ export default async function main() {
       return;
     }
 
-    newVersion = incrementedVersion;
+    if (isPullRequest) {
+      newVersion = `${incrementedVersion}-${identifier}`;
+    } else {
+      newVersion = incrementedVersion;
+    }
   }
 
   core.info(`New version is ${newVersion}.`);
