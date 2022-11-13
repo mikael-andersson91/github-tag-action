@@ -886,7 +886,7 @@ describe('github-tag-action', () => {
       setEventName('pull_request');
     });
 
-    it('does create new verion with commit sha suffix on pull request', async () => {
+    it('does create new version with commit sha suffix on pull request', async () => {
       /*
        * Given
        */
