@@ -151,3 +151,26 @@ export function mergeWithDefaultChangelogRules(
 
   return Object.values(mergedRules).filter((rule) => !!rule.section);
 }
+
+export function getIdentifier(
+  appendToPreReleaseTag: string,
+  currentBranch: string,
+  isPullRequest: boolean,
+  isPrerelease: boolean,
+  commitSha: string
+): string {
+  // On prerelease: Sanitize identifier according to
+  // https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions
+  let identifier: string;
+  if (isPrerelease) {
+    identifier = (
+      appendToPreReleaseTag ? appendToPreReleaseTag : currentBranch
+    ).replace(/[^a-zA-Z0-9-]/g, '-');
+    return identifier;
+  }
+  if (isPullRequest) {
+    // On pull request, use commit SHA for identifier
+    return commitSha;
+  }
+  return '';
+}

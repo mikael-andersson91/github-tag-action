@@ -487,6 +487,7 @@ describe('github-tag-action', () => {
       /*
        * Then
        */
+
       expect(mockCreateTag).not.toBeCalled();
       expect(mockSetFailed).not.toBeCalled();
     });
@@ -880,7 +881,7 @@ describe('github-tag-action', () => {
   describe('pull requests', () => {
     beforeEach(() => {
       jest.clearAllMocks();
-      setBranch('branch-with-my-first-feature');
+      setBranch('branch-with-my-first-fix');
       setEventName('pull_request');
     });
 
@@ -914,6 +915,7 @@ describe('github-tag-action', () => {
       /*
        * Then
        */
+      expect(mockSetOutput).toHaveBeenCalledWith('new_version', '1.2.4-012345');
       expect(mockCreateTag).not.toHaveBeenCalledWith();
       expect(mockSetFailed).not.toBeCalled();
     });

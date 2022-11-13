@@ -12,6 +12,7 @@ import {
   getValidTags,
   mapCustomReleaseRules,
   mergeWithDefaultChangelogRules,
+  getIdentifier,
 } from './utils';
 import { createTag } from './github';
 import { Await } from './ts';
@@ -66,14 +67,17 @@ export default async function main() {
     currentBranch
   );
   const isPullRequest = isPr(GITHUB_EVENT_NAME);
-  const isPrerelease =
-    !isReleaseBranch && (isPullRequest || isPreReleaseBranch);
+  const isPrerelease = !isReleaseBranch && !isPullRequest && isPreReleaseBranch;
 
   // Sanitize identifier according to
   // https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions
-  const identifier = (
-    appendToPreReleaseTag ? appendToPreReleaseTag : currentBranch
-  ).replace(/[^a-zA-Z0-9-]/g, '-');
+  const identifier = getIdentifier(
+    appendToPreReleaseTag,
+    currentBranch,
+    isPullRequest,
+    isPrerelease,
+    commitSha
+  );
 
   const prefixRegex = new RegExp(`^${tagPrefix}`);
 
