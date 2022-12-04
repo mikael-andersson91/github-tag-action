@@ -24,7 +24,9 @@ export default async function main() {
   const tagPrefix = core.getInput('tag_prefix');
   const customTag = core.getInput('custom_tag');
   const releaseBranches = core.getInput('release_branches');
-  const appendCommitRef = core.getBooleanInput('append_commit_sha');
+  const appendCommitRef = /true/i.test(
+    core.getInput('append_commit_sha')
+  );
   const appendToPreReleaseTag = core.getInput('append_to_pre_release_tag');
   const createAnnotatedTag = /true/i.test(
     core.getInput('create_annotated_tag')
