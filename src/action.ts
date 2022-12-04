@@ -68,7 +68,9 @@ export default async function main() {
   // https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions
   core.info(`Commit ref: ${commitRef}`);
   core.info(`Use commit ref as identifier: ${appendCommitRef}`);
-  core.info(`Append to prerelease version if not commit ref: ${appendToPreReleaseTag}`);
+  core.info(
+    `Append to prerelease version if not commit ref: ${appendToPreReleaseTag}`
+  );
   const identifier = getIdentifier(
     appendToPreReleaseTag,
     appendCommitRef,
