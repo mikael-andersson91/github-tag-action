@@ -1,6 +1,6 @@
 # GitHub Tag Action
 
-A GitHub Action to automatically bump and tag master, on merge, with the latest SemVer formatted version. Works on any platform.
+A GitHub Action to automatically bump and tag a repository with the latest SemVer formatted version on pushes to release branch. Can be used to generate pre-release tags on any other branches. Works on any platform.
 
 ## Usage
 
@@ -40,7 +40,6 @@ jobs:
 #### Filter branches
 
 - **release_branches** _(optional)_ - Comma separated list of branches (JavaScript regular expression accepted) that will generate the release tags. Other branches and pull-requests generate versions postfixed with the commit hash and do not generate any repository tag. Examples: `master` or `.*` or `release.*,hotfix.*,master`... (default: `master,main`).
-- **pre_release_branches** _(optional)_ - Comma separated list of branches (JavaScript regular expression accepted) that will generate the pre-release tags.
 
 #### Customize the tag
 
@@ -49,7 +48,8 @@ jobs:
 - **custom_tag** _(optional)_ - Custom tag name. If specified, it overrides bump settings.
 - **create_annotated_tag** _(optional)_ - Boolean to create an annotated rather than a lightweight one (default: `false`).
 - **tag_prefix** _(optional)_ - A prefix to the tag name (default: `v`).
-- **append_to_pre_release_tag** _(optional)_ - A suffix to the pre-release tag name (default: `<branch>`).
+- **append_to_pre_release_tag** _(optional)_ - A suffix to the pre-release tag name (default: `beta`).
+- **append_commit_sha** _(optional)_ - Boolean to override append_to_pre_release_tag with usage of the commit sha as identifier. (default: false).
 
 #### Customize the conventional commit messages & titles of changelog sections
 
@@ -129,4 +129,5 @@ If no commit message contains any information, then **default_bump** will be use
 
 ## Credits
 
+[mathieudutour/github-tag-action](https://github.com/mathieudutour/github-tag-action) - action which this repository was orignially forked from
 [anothrNick/github-tag-action](https://github.com/anothrNick/github-tag-action) - a similar action using a Dockerfile (hence not working on macOS)

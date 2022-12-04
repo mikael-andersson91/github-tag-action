@@ -5,7 +5,6 @@ import { generateNotes } from '@semantic-release/release-notes-generator';
 import {
   getBranchFromRef,
   isPr,
-  isPrereleaseBranch,
   getCommits,
   getLatestPrereleaseTag,
   getLatestTag,
@@ -25,7 +24,7 @@ export default async function main() {
   const tagPrefix = core.getInput('tag_prefix');
   const customTag = core.getInput('custom_tag');
   const releaseBranches = core.getInput('release_branches');
-  const preReleaseBranches = core.getInput('pre_release_branches');
+  const appendCommitRef = core.getBooleanInput('append_commit_sha');
   const appendToPreReleaseTag = core.getInput('append_to_pre_release_tag');
   const createAnnotatedTag = /true/i.test(
     core.getInput('create_annotated_tag')
@@ -62,20 +61,14 @@ export default async function main() {
   const isReleaseBranch = releaseBranches
     .split(',')
     .some((branch) => currentBranch.match(branch));
-  const isPreReleaseBranch = isPrereleaseBranch(
-    preReleaseBranches,
-    currentBranch
-  );
   const isPullRequest = isPr(GITHUB_EVENT_NAME);
-  const isPrerelease = !isReleaseBranch && !isPullRequest && isPreReleaseBranch;
+  const isPrerelease = !isReleaseBranch || isPullRequest;
 
   // Sanitize identifier according to
   // https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions
   const identifier = getIdentifier(
     appendToPreReleaseTag,
-    currentBranch,
-    isPullRequest,
-    isPrerelease,
+    appendCommitRef,
     commitRef
   );
 
@@ -86,6 +79,7 @@ export default async function main() {
     /true/i.test(shouldFetchAllTags)
   );
   const latestTag = getLatestTag(validTags, prefixRegex, tagPrefix);
+
   const latestPrereleaseTag = getLatestPrereleaseTag(
     validTags,
     identifier,
@@ -192,12 +186,7 @@ export default async function main() {
       core.setFailed(`${incrementedVersion} is not a valid semver.`);
       return;
     }
-
-    if (isPullRequest) {
-      newVersion = `${incrementedVersion}-${identifier}`;
-    } else {
-      newVersion = incrementedVersion;
-    }
+    newVersion = incrementedVersion;
   }
 
   core.info(`New version is ${newVersion}.`);
@@ -226,13 +215,6 @@ export default async function main() {
   );
   core.info(`Changelog is ${changelog}.`);
   core.setOutput('changelog', changelog);
-
-  if (!isReleaseBranch && !isPreReleaseBranch) {
-    core.info(
-      'This branch is neither a release nor a pre-release branch. Skipping the tag creation.'
-    );
-    return;
-  }
 
   if (validTags.map((tag) => tag.name).includes(newTag)) {
     core.info('This tag already exists. Skipping the tag creation.');
