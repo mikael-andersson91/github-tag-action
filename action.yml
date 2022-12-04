@@ -42,9 +42,10 @@ inputs:
     description: "Comma separated list of branches (bash reg exp accepted) that will generate the release tags. Other branches and pull-requests generate versions postfixed with the commit hash and do not generate any tag. Examples: `master` or `.*` or `release.*,hotfix.*,master`..."
     required: false
     default: "master,main"
-  commit_sha:
-    description: "The commit SHA value to add the tag. If specified, it uses this value instead GITHUB_SHA. It could be useful when a previous step merged a branch into github.ref."
+  append_commit_sha:
+    description: "Boolean to override append_to_prerelease_tag with the commit sha. Appends commit sha at the end of prerelease tags. (default: false)"
     required: false
+    default: "false"
   create_annotated_tag:
     description: "Boolean to create an annotated tag rather than lightweight."
     required: false

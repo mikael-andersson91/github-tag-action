@@ -154,15 +154,14 @@ export function mergeWithDefaultChangelogRules(
 
 export function getIdentifier(
   appendToPreReleaseTag: string,
-  currentBranch: string,
-  isPrerelease: boolean,
+  appendCommitRef: boolean,
   commitRef: string
 ): string {
   // On prerelease: Sanitize identifier according to
   // https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions
   let identifier: string;
   identifier = (
-    appendToPreReleaseTag ? appendToPreReleaseTag : currentBranch
+    appendCommitRef ?  commitRef.slice(0,7) : appendToPreReleaseTag
   ).replace(/[^a-zA-Z0-9-]/g, '-');
   return identifier;
 }

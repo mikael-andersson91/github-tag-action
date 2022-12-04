@@ -762,7 +762,7 @@ describe('github-tag-action', () => {
       setBranch('development');
     });
 
-    it('does output patch tag', async () => {
+    it('does output prepatch tag', async () => {
       /*
        * Given
        */
@@ -797,7 +797,7 @@ describe('github-tag-action', () => {
       expect(mockSetFailed).not.toBeCalled();
     });
 
-    it('does output minor tag', async () => {
+    it('does output preminor tag', async () => {
       /*
        * Given
        */
@@ -834,7 +834,7 @@ describe('github-tag-action', () => {
       expect(mockSetFailed).not.toBeCalled();
     });
 
-    it('does output major tag', async () => {
+    it('does output premajor tag', async () => {
       /*
        * Given
        */
@@ -876,11 +876,12 @@ describe('github-tag-action', () => {
     });
   });
 
-  describe('pull requests', () => {
+  describe('commit sha suffix', () => {
     beforeEach(() => {
       jest.clearAllMocks();
       setBranch('branch-with-my-first-fix');
       setEventName('pull_request');
+      setInput('append_commit_sha','true');
     });
 
     it('does create new version with commit sha suffix on pull request', async () => {
