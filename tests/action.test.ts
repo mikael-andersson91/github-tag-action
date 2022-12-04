@@ -918,7 +918,7 @@ describe('github-tag-action', () => {
         'new_version',
         `1.2.4-${commitSha.slice(0, 7)}`
       );
-      expect(mockCreateTag).not.toHaveBeenCalledWith();
+      expect(mockCreateTag).toHaveBeenCalledWith();
       expect(mockSetFailed).not.toBeCalled();
     });
   });
