@@ -5,7 +5,6 @@ import { generateNotes } from '@semantic-release/release-notes-generator';
 import {
   getBranchFromRef,
   isPr,
-  isPrereleaseBranch,
   getCommits,
   getLatestPrereleaseTag,
   getLatestTag,
@@ -25,7 +24,7 @@ export default async function main() {
   const tagPrefix = core.getInput('tag_prefix');
   const customTag = core.getInput('custom_tag');
   const releaseBranches = core.getInput('release_branches');
-  const preReleaseBranches = core.getInput('pre_release_branches');
+  const appendCommitRef = core.getBooleanInput('append_commit_sha');
   const appendToPreReleaseTag = core.getInput('append_to_pre_release_tag');
   const createAnnotatedTag = /true/i.test(
     core.getInput('create_annotated_tag')
@@ -62,10 +61,6 @@ export default async function main() {
   const isReleaseBranch = releaseBranches
     .split(',')
     .some((branch) => currentBranch.match(branch));
-  const isPreReleaseBranch = isPrereleaseBranch(
-    preReleaseBranches,
-    currentBranch
-  );
   const isPullRequest = isPr(GITHUB_EVENT_NAME);
   const isPrerelease = !isReleaseBranch || isPullRequest;
 
@@ -73,8 +68,7 @@ export default async function main() {
   // https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions
   const identifier = getIdentifier(
     appendToPreReleaseTag,
-    currentBranch,
-    isPrerelease,
+    appendCommitRef,
     commitRef
   );
 
