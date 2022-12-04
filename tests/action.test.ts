@@ -34,7 +34,7 @@ describe('github-tag-action', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     setBranch('master');
-    setInput('release_branches','master,main');
+    setInput('release_branches', 'master,main');
     setCommitSha(commitSha);
     setEventName('push');
     loadDefaultInputs();
@@ -881,7 +881,7 @@ describe('github-tag-action', () => {
       jest.clearAllMocks();
       setBranch('branch-with-my-first-fix');
       setEventName('pull_request');
-      setInput('append_commit_sha','true');
+      setInput('append_commit_sha', 'true');
     });
 
     it('does create new version with commit sha suffix on pull request', async () => {
