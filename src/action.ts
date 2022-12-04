@@ -67,14 +67,13 @@ export default async function main() {
     currentBranch
   );
   const isPullRequest = isPr(GITHUB_EVENT_NAME);
-  const isPrerelease = !isReleaseBranch && !isPullRequest && isPreReleaseBranch;
+  const isPrerelease = !isReleaseBranch || isPullRequest;
 
   // Sanitize identifier according to
   // https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions
   const identifier = getIdentifier(
     appendToPreReleaseTag,
     currentBranch,
-    isPullRequest,
     isPrerelease,
     commitRef
   );
@@ -86,6 +85,7 @@ export default async function main() {
     /true/i.test(shouldFetchAllTags)
   );
   const latestTag = getLatestTag(validTags, prefixRegex, tagPrefix);
+
   const latestPrereleaseTag = getLatestPrereleaseTag(
     validTags,
     identifier,
@@ -192,12 +192,7 @@ export default async function main() {
       core.setFailed(`${incrementedVersion} is not a valid semver.`);
       return;
     }
-
-    if (isPullRequest) {
-      newVersion = `${incrementedVersion}-${identifier}`;
-    } else {
-      newVersion = incrementedVersion;
-    }
+    newVersion = incrementedVersion;
   }
 
   core.info(`New version is ${newVersion}.`);
@@ -226,13 +221,6 @@ export default async function main() {
   );
   core.info(`Changelog is ${changelog}.`);
   core.setOutput('changelog', changelog);
-
-  if (!isReleaseBranch && !isPreReleaseBranch) {
-    core.info(
-      'This branch is neither a release nor a pre-release branch. Skipping the tag creation.'
-    );
-    return;
-  }
 
   if (validTags.map((tag) => tag.name).includes(newTag)) {
     core.info('This tag already exists. Skipping the tag creation.');
