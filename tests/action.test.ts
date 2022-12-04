@@ -224,7 +224,7 @@ describe('github-tag-action', () => {
   describe('release branches', () => {
     beforeEach(() => {
       jest.clearAllMocks();
-      setBranch('release');
+      setBranch('master');
       setEventName('push');
     });
 
