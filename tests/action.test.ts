@@ -34,6 +34,7 @@ describe('github-tag-action', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     setBranch('master');
+    setInput('release_branches','master,main');
     setCommitSha(commitSha);
     setEventName('push');
     loadDefaultInputs();
@@ -224,7 +225,6 @@ describe('github-tag-action', () => {
     beforeEach(() => {
       jest.clearAllMocks();
       setBranch('release');
-      setInput('release_branches', 'release');
       setEventName('push');
     });
 
@@ -397,7 +397,7 @@ describe('github-tag-action', () => {
        * Then
        */
       expect(mockCreateTag).toHaveBeenCalledWith(
-        'v1.3.0',
+        'v2.2.0',
         expect.any(Boolean),
         expect.any(String)
       );
@@ -454,7 +454,6 @@ describe('github-tag-action', () => {
     beforeEach(() => {
       jest.clearAllMocks();
       setBranch('prerelease');
-      setInput('release_branches', 'release');
     });
 
     it('does not create tag without commits and default_bump set to false', async () => {
@@ -761,7 +760,6 @@ describe('github-tag-action', () => {
     beforeEach(() => {
       jest.clearAllMocks();
       setBranch('development');
-      setInput('release_branches', 'release');
     });
 
     it('does output patch tag', async () => {
