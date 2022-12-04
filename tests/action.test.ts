@@ -793,7 +793,7 @@ describe('github-tag-action', () => {
        * Then
        */
       expect(mockSetOutput).toHaveBeenCalledWith('new_version', '1.2.4-beta.0');
-      expect(mockCreateTag).not.toBeCalled();
+      expect(mockCreateTag).toBeCalled();
       expect(mockSetFailed).not.toBeCalled();
     });
 
@@ -830,7 +830,7 @@ describe('github-tag-action', () => {
        * Then
        */
       expect(mockSetOutput).toHaveBeenCalledWith('new_version', '1.3.0-beta.0');
-      expect(mockCreateTag).not.toBeCalled();
+      expect(mockCreateTag).toBeCalled();
       expect(mockSetFailed).not.toBeCalled();
     });
 
@@ -871,7 +871,7 @@ describe('github-tag-action', () => {
        * Then
        */
       expect(mockSetOutput).toHaveBeenCalledWith('new_version', '2.0.0-beta.0');
-      expect(mockCreateTag).not.toBeCalled();
+      expect(mockCreateTag).toBeCalled();
       expect(mockSetFailed).not.toBeCalled();
     });
   });
