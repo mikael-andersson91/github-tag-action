@@ -163,5 +163,6 @@ export function getIdentifier(
   identifier = (
     appendCommitRef ?  commitRef.slice(0,7) : appendToPreReleaseTag
   ).replace(/[^a-zA-Z0-9-]/g, '-');
+  console.log(identifier)
   return identifier;
 }

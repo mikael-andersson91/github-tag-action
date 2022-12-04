@@ -916,9 +916,9 @@ describe('github-tag-action', () => {
        */
       expect(mockSetOutput).toHaveBeenCalledWith(
         'new_version',
-        `1.2.4-${commitSha.slice(0, 7)}`
+        `1.2.4-${commitSha.slice(0, 7)}.0`
       );
-      expect(mockCreateTag).toHaveBeenCalledWith();
+      expect(mockCreateTag).not.toHaveBeenCalledWith();
       expect(mockSetFailed).not.toBeCalled();
     });
   });
