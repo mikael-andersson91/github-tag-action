@@ -66,12 +66,15 @@ export default async function main() {
 
   // Sanitize identifier according to
   // https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions
+  core.info(`Commit ref: ${commitRef}`);
+  core.info(`Use commit ref as identifier: ${appendCommitRef}`);
+  core.info(`Append to prerelease version if not commit ref: ${appendToPreReleaseTag}`);
   const identifier = getIdentifier(
     appendToPreReleaseTag,
     appendCommitRef,
     commitRef
   );
-
+  core.info(`Prerelease identifier: ${identifier}`);
   const prefixRegex = new RegExp(`^${tagPrefix}`);
 
   const validTags = await getValidTags(
