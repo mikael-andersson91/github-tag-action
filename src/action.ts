@@ -71,10 +71,11 @@ export default async function main() {
   core.info(
     `Append to prerelease version if not commit ref: ${appendToPreReleaseTag}`
   );
+  const shortenedCommitRef = commitRef.slice(0, 7);
   const identifier = getIdentifier(
     appendToPreReleaseTag,
     appendCommitRef,
-    commitRef
+    shortenedCommitRef
   );
   core.info(`Prerelease identifier: ${identifier}`);
   const prefixRegex = new RegExp(`^${tagPrefix}`);
@@ -192,6 +193,12 @@ export default async function main() {
       return;
     }
     newVersion = incrementedVersion;
+    if (appendCommitRef) {
+      newVersion = newVersion.substring(
+        0,
+        newVersion.lastIndexOf(shortenedCommitRef)
+      );
+    }
   }
 
   core.info(`New version is ${newVersion}.`);

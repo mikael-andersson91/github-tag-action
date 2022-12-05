@@ -160,9 +160,10 @@ export function getIdentifier(
   // On prerelease: Sanitize identifier according to
   // https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions
   let identifier: string;
-  identifier = (
-    appendCommitRef ? commitRef.slice(0, 7) : appendToPreReleaseTag
-  ).replace(/[^a-zA-Z0-9-]/g, '-');
+  identifier = (appendCommitRef ? commitRef : appendToPreReleaseTag).replace(
+    /[^a-zA-Z0-9-]/g,
+    '-'
+  );
   console.log(identifier);
   return identifier;
 }
