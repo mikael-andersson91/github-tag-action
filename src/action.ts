@@ -200,10 +200,12 @@ export default async function main() {
       console.log(
         `Use only shortenedCommitRef as identifier. Remove trailing characters from ${newVersion}`
       );
-      newVersion = newVersion.substring(
-        0,
-        newVersion.lastIndexOf(shortenedCommitRef) + shortenedCommitRef.length
-      );
+      if (newVersion.includes(shortenedCommitRef)) {
+        newVersion = newVersion.substring(
+          0,
+          newVersion.lastIndexOf(shortenedCommitRef) + shortenedCommitRef.length
+        );
+      }
       console.log(`newVersion: ${newVersion}`);
     }
   }
