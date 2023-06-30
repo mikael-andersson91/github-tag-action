@@ -39,7 +39,7 @@ export async function listTags(
     per_page: 100,
     page,
   });
-
+  core.debug(`Context: ${context}`)
   if (tags.data.length < 100 || shouldFetchAllTags === false) {
     return [...fetchedTags, ...tags.data];
   }
