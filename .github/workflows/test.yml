@@ -21,8 +21,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
-      - uses: ./
+
+      - name: "Dry Run with prerelease"
+        uses: ./
         with:
           dry_run: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Echo pull request head sha"
+        run: echo ${{ github.event.pull_request.head.sha }}
+      
+      - name: "Dry Run with commit sha"
+        uses: ./
+        with:
+          dry_run: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          append_commit_sha: true

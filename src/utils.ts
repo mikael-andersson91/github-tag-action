@@ -172,6 +172,5 @@ export function getIdentifier(
     /[^a-zA-Z0-9-]/g,
     '-'
   );
-  console.log(identifier);
   return identifier;
 }
