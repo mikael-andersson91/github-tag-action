@@ -53,7 +53,7 @@ export default async function main() {
 
   const isPr = isPullRequest(GITHUB_EVENT_NAME);
   var commitRef = '';
-  if(isPr) {
+  if (isPr) {
     commitRef = getPullRequestHeadSha();
   } else {
     commitRef = GITHUB_SHA as string;

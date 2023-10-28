@@ -1,7 +1,7 @@
 import { context, getOctokit } from '@actions/github';
 import * as core from '@actions/core';
 import { Await } from './ts';
-import {PullRequestEvent} from '@octokit/webhooks-types';
+import { PullRequestEvent } from '@octokit/webhooks-types';
 
 let octokitSingleton: ReturnType<typeof getOctokit>;
 
@@ -26,13 +26,13 @@ export function getOctokitSingleton() {
 }
 
 export function getPullRequestHeadSha() {
-  var commitSha = ''
-  if(context.eventName.startsWith('pull_request')){
+  var commitSha = '';
+  if (context.eventName.startsWith('pull_request')) {
     var pullRequestPayload = context.payload as PullRequestEvent;
     commitSha = pullRequestPayload.pull_request.head.sha;
   }
   return commitSha;
-} 
+}
 
 /**
  * Fetch all tags for a given repository recursively

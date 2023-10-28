@@ -55,11 +55,12 @@ export function isPullRequest(eventName: string) {
 
 export function isReleaseBranch(
   releaseBranches: string,
-  currentBranch: string) {
-    return releaseBranches
+  currentBranch: string
+) {
+  return releaseBranches
     .split(',')
     .some((branch) => currentBranch.match(branch));
-  }
+}
 
 export function isPrereleaseBranch(
   preReleaseBranches: string,
