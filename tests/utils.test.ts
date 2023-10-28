@@ -36,12 +36,66 @@ describe('utils', () => {
     /*
      * When
      */
-    const isPullRequest = utils.isPr(eventName);
+    const isPullRequest = utils.isPullRequest(eventName);
 
     /*
      * Then
      */
     expect(isPullRequest).toEqual(true);
+  });
+
+  it('test if releaseBranch is detected in single branch', () => {
+    /*
+     * Given
+     */
+    const releaseBranch = 'main';
+    const currentBranch = 'main';
+
+    /*
+     * When
+     */
+    const isReleaseBranch = utils.isReleaseBranch(releaseBranch, currentBranch);
+
+    /*
+     * Then
+     */
+    expect(isReleaseBranch).toEqual(true);
+  });
+
+  it('test multiple release branches provided', () => {
+    /*
+     * Given
+     */
+    const releaseBranch = 'main,master';
+    const currentBranch = 'main';
+
+    /*
+     * When
+     */
+    const isReleaseBranch = utils.isReleaseBranch(releaseBranch, currentBranch);
+
+    /*
+     * Then
+     */
+    expect(isReleaseBranch).toEqual(true);
+  });
+
+  it('test branch is not release branch', () => {
+    /*
+     * Given
+     */
+    const releaseBranch = 'main,master';
+    const currentBranch = 'fix/thing';
+
+    /*
+     * When
+     */
+    const isReleaseBranch = utils.isReleaseBranch(releaseBranch, currentBranch);
+
+    /*
+     * Then
+     */
+    expect(isReleaseBranch).toEqual(false);
   });
 
   it('returns valid tags', async () => {

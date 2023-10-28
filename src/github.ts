@@ -1,6 +1,7 @@
 import { context, getOctokit } from '@actions/github';
 import * as core from '@actions/core';
 import { Await } from './ts';
+import { PullRequestEvent } from '@octokit/webhooks-types';
 
 let octokitSingleton: ReturnType<typeof getOctokit>;
 
@@ -22,6 +23,15 @@ export function getOctokitSingleton() {
   const githubToken = core.getInput('github_token');
   octokitSingleton = getOctokit(githubToken);
   return octokitSingleton;
+}
+
+export function getPullRequestHeadSha() {
+  var commitSha = '';
+  if (context.eventName.startsWith('pull_request')) {
+    var pullRequestPayload = context.payload as PullRequestEvent;
+    commitSha = pullRequestPayload.pull_request.head.sha;
+  }
+  return commitSha;
 }
 
 /**

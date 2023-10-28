@@ -4,7 +4,7 @@ import { analyzeCommits } from '@semantic-release/commit-analyzer';
 import { generateNotes } from '@semantic-release/release-notes-generator';
 import {
   getBranchFromRef,
-  isPr,
+  isPullRequest,
   getCommits,
   getLatestPrereleaseTag,
   getLatestTag,
@@ -12,8 +12,9 @@ import {
   mapCustomReleaseRules,
   mergeWithDefaultChangelogRules,
   getIdentifier,
+  isReleaseBranch,
 } from './utils';
-import { createTag } from './github';
+import { createTag, getPullRequestHeadSha } from './github';
 import { Await } from './ts';
 
 export default async function main() {
@@ -32,7 +33,6 @@ export default async function main() {
   const dryRun = core.getInput('dry_run');
   const customReleaseRules = core.getInput('custom_release_rules');
   const shouldFetchAllTags = core.getInput('fetch_all_tags');
-  const commitSha = core.getInput('commit_sha');
 
   let mappedReleaseRules;
   if (customReleaseRules) {
@@ -51,18 +51,16 @@ export default async function main() {
     return;
   }
 
-  const commitRef = commitSha || GITHUB_SHA;
-  if (!commitRef) {
-    core.setFailed('Missing commit_sha or GITHUB_SHA.');
-    return;
+  const isPr = isPullRequest(GITHUB_EVENT_NAME);
+  var commitRef = '';
+  if (isPr) {
+    commitRef = getPullRequestHeadSha();
+  } else {
+    commitRef = GITHUB_SHA as string;
   }
 
   const currentBranch = getBranchFromRef(GITHUB_REF);
-  const isReleaseBranch = releaseBranches
-    .split(',')
-    .some((branch) => currentBranch.match(branch));
-  const isPullRequest = isPr(GITHUB_EVENT_NAME);
-  const isPrerelease = !isReleaseBranch || isPullRequest;
+  const isPrerelease = !isReleaseBranch(currentBranch, releaseBranches) || isPr;
 
   // Sanitize identifier according to
   // https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions

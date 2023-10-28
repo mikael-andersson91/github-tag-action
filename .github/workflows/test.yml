@@ -6,11 +6,34 @@ on:
       - master
 
 jobs:
-  test:
+  npm-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: npm ci
       - run: npm run test
       - run: npm run check
       - run: npm run build
+    
+  action-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "Dry Run with prerelease"
+        uses: ./
+        with:
+          dry_run: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Echo pull request head sha"
+        run: echo ${{ github.event.pull_request.head.sha }}
+      
+      - name: "Dry Run with commit sha"
+        uses: ./
+        with:
+          dry_run: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          append_commit_sha: true
