@@ -49,9 +49,17 @@ export function getBranchFromRef(ref: string) {
   return ref.replace('refs/heads/', '');
 }
 
-export function isPr(eventName: string) {
+export function isPullRequest(eventName: string) {
   return eventName.includes('pull_request');
 }
+
+export function isReleaseBranch(
+  releaseBranches: string,
+  currentBranch: string) {
+    return releaseBranches
+    .split(',')
+    .some((branch) => currentBranch.match(branch));
+  }
 
 export function isPrereleaseBranch(
   preReleaseBranches: string,
