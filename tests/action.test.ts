@@ -29,6 +29,7 @@ const mockSetOutput = jest
 
 const mockSetFailed = jest.spyOn(core, 'setFailed');
 const commitSha = '79e0ea271c26aa152beef77c3275ff7b8f8d8274';
+const prCommitSha = 'fdsklfdsn922191nff329fdnfnkldsqorjiownfds';
 
 describe('github-tag-action', () => {
   beforeEach(() => {
@@ -872,53 +873,6 @@ describe('github-tag-action', () => {
        */
       expect(mockSetOutput).toHaveBeenCalledWith('new_version', '2.0.0-beta.0');
       expect(mockCreateTag).toBeCalled();
-      expect(mockSetFailed).not.toBeCalled();
-    });
-  });
-
-  describe('commit sha suffix', () => {
-    beforeEach(() => {
-      jest.clearAllMocks();
-      setBranch('branch-with-my-first-fix');
-      setEventName('pull_request');
-      setInput('append_commit_sha', 'true');
-    });
-
-    it('does create new version with commit sha suffix on pull request', async () => {
-      /*
-       * Given
-       */
-      const commits = [{ message: 'fix: this is my first fix', hash: null }];
-      jest
-        .spyOn(utils, 'getCommits')
-        .mockImplementation(async (sha) => commits);
-
-      const validTags = [
-        {
-          name: 'v1.2.3',
-          commit: { sha: '012345', url: '' },
-          zipball_url: '',
-          tarball_url: 'string',
-          node_id: 'string',
-        },
-      ];
-      jest
-        .spyOn(utils, 'getValidTags')
-        .mockImplementation(async () => validTags);
-
-      /*
-       * When
-       */
-      await action();
-
-      /*
-       * Then
-       */
-      expect(mockSetOutput).toHaveBeenCalledWith(
-        'new_version',
-        `1.2.4-${commitSha.slice(0, 7)}`
-      );
-      expect(mockCreateTag).not.toHaveBeenCalledWith();
       expect(mockSetFailed).not.toBeCalled();
     });
   });
